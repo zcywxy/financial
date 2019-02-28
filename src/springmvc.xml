@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<ref bean="stringHttpMessageConverter"/>
+			<ref bean="mappingJackson2HttpMessageConverter"/>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<mvc:default-servlet-handler/>
+	<!--  扫描类上的注解 -->
+	<context:component-scan base-package="com.zhou.springmvc"/>
+	<!-- 解决静态资源访问的问题 -->
+	
+	
+	<!--  配置一个视图解析器，用来解析视图 -->
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	
+		<property name="prefix" value="/WEB-INF/user/" />
+		<property name="suffix" value=".jsp" />
+		
+	</bean>
+	<!-- 解决异步刷新乱码问题 -->
+	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			 <list>
+			 	<value>text/html;charset:utf-8</value>
+			 </list>
+		</property>
+	</bean>
+	<bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			 <list>
+                  <value>text/json;charset=UTF-8</value>   
+                  <value>application/json;charset=UTF-8</value>   
+			 </list>
+		</property>
+	</bean>
+	
+	
+</beans>
